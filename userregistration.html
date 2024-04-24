@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Page</title>
+    <link rel="stylesheet" href="userregistration.css"> <!-- Link to external CSS file -->
+    <script>
+        function togglePasswordVisibility(inputId) {
+            var passwordInput = document.getElementById(inputId);
+            passwordInput.type = (passwordInput.type === "password") ? "text" : "password";
+        }
+
+        function clearPasswords() {
+            document.getElementById("userpassword").value = "";
+            document.getElementById("userconformpassword").value = "";
+            document.getElementById("toggle1").checked = false;
+            document.getElementById("toggle2").checked = false;
+        }
+
+        function validateForm() {
+            var username = document.getElementById("username").value.trim();
+            var email = document.getElementById("usermailid").value.trim();
+            var gender = document.querySelector('input[name="gender"]:checked');
+            var dob = document.getElementById("dob").value.trim();
+            var phone = document.getElementById("userphone").value.trim();
+            var region = document.getElementById("region").value.trim();
+            var password = document.getElementById("userpassword").value;
+            var confirmPassword = document.getElementById("userconformpassword").value;
+
+            // Check if any field is empty
+            if (username === "" || email === "" || !gender || dob === "" || phone === "" || region === "" || password === "" || confirmPassword === "") {
+                alert("All fields are required.");
+                return false;
+            }
+
+            // Check email format
+            var emailExp = /^[^\s@]+@gmail\.com$/i;
+            if (!email.match(emailExp)) {
+                alert("Please enter a valid Gmail address.");
+                return false;
+            }
+
+            // Check password format
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long.");
+                return false;
+            }
+
+            var hasNumber = /\d/.test(password);
+            var hasUpperCase = /[A-Z]/.test(password);
+            var hasLowerCase = /[a-z]/.test(password);
+            var hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+            if (!(hasNumber && hasUpperCase && hasLowerCase && hasSpecialChar)) {
+                alert("Password must contain at least one uppercase letter, one lowercase letter, one number, one special character.");
+                return false;
+            }
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+
+            // All validations passed
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h2 id="registrationheading">User Registration</h2>
+    <hr><hr>
+    <form onsubmit="return validateForm()">
+        <label for="username">Enter your name :</label><br>
+        <input type="text" id="username" name="username" placeholder="Enter your name"><br><br>
+
+        <label for="usermailid">User Mail Id:</label><br>
+        <input type="email" id="usermailid" name="mailid" placeholder="Enter your mail id"><br><br>
+
+        <p>Select your gender :</p>
+        <input type="radio" id="mgender" name="gender" value="Male">
+        <label for="mgender">Male</label>
+        <input type="radio" id="fgender" name="gender" value="Female">
+        <label for="fgender">Female</label>
+        <input type="radio" id="ogender" name="gender" value="Other">
+        <label for="ogender">Other</label><br><br>
+
+        <label for="dob">Enter your date of birth :</label>
+        <input type="date" id="dob" name="dob" value="date of birth"><br><br>
+
+        <label for="userphone">Enter your phone number :</label><br>
+        <input type="tel" id="userphone" name="userphone" placeholder="Enter your phone number"><br><br>
+
+        <label for="region">Enter your Country :</label><br>
+        <input type="text" id="region" name="region" placeholder="Enter your Country "><br><br>
+
+        <label for="userpassword">User Password:</label><br>
+        <input type="password" id="userpassword" name="password" placeholder="Enter your password"><br>
+        <input type="checkbox" id="toggle1" onchange="togglePasswordVisibility('userpassword')">Show Password<br><br>
+
+        <label for="userconformpassword">Confirm Password:</label><br>
+        <input type="password" id="userconformpassword" name="confirmpassword" placeholder="Confirm your password"><br>
+        <input type="checkbox" id="toggle2" onchange="togglePasswordVisibility('userconformpassword')">Show Password<br><br>
+
+        <input type="submit" id="submitbutton" value="Submit">
+        <input type="reset" id="resetbutton" onclick="clearPasswords()" value="Reset">
+    </form>       
+
+    <!-- You can include additional HTML content here -->
+</body>
+</html>
